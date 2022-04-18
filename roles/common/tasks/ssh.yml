@@ -1,0 +1,34 @@
+---
+- name: load ssh vars
+  include_vars: vars/ssh.yml
+
+- name: add ssh users
+  vars:
+    password_file: "{{'passwords/' + inventory_hostname + '-' + item + '.pass'}}"
+    plain_password: "{{lookup('password', password_file + ' length=' + ssh_password_length | string + ' chars=ascii_letters')}}"
+  ansible.builtin.user:
+    name: "{{item}}"
+    password: "{{plain_password | password_hash(ssh_password_hash)}}"
+    create_home: true
+    update_password: on_create
+    append: true
+    groups:
+      - sudo
+    state: present
+  loop: "{{ssh_users}}"
+
+- name: configure sshd
+  ansible.builtin.template:
+    dest: /etc/ssh/sshd_config.d
+    src: files/10-ssh-settings.conf
+    owner: root
+    group: root
+    mode: u=rw,g=rw,o=r
+
+- name: restart sshd
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+# TODO:
+# After 'configure sshd' when sshd is restarted you cannot login again with administrator
+# After this point all the connections should happen with the new users so I have to change ansible_user after this play

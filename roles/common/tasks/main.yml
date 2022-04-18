@@ -1,0 +1,6 @@
+---
+- name: packages
+  ansible.builtin.import_tasks: packages.yml
+
+- name: ssh
+  ansible.builtin.import_tasks: ssh.yml

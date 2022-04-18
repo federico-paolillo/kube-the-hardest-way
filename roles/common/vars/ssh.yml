@@ -1,0 +1,7 @@
+---
+ssh_users:
+  - federico
+
+ssh_password_length: 8
+
+ssh_password_hash: sha512
