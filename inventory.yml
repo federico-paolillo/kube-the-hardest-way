@@ -3,7 +3,7 @@ all:
   children:
     workers:
       hosts:
-        192.168.178.39:
+        192.168.178.40:
   vars:
     ansible_become: true
     ansible_become_method: sudo
