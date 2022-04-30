@@ -1,0 +1,49 @@
+---
+- name: install kubetools prereqs
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+    update-cache: true
+    state: present
+
+- name: download kube repo key
+  ansible.builtin.get_url:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    dest: /usr/share/keyrings/kubernetes-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: u=r,g=r,o=r
+
+- name: add kube repo
+  ansible.builtin.copy:
+    src: kube.list
+    dest: /etc/apt/sources.list.d/
+    owner: root
+    group: root
+    mode: u=r,g=r,o=r
+
+- name: install kubetools from apt
+  ansible.builtin.apt:
+    name:
+      - "kubelet=1.23.6"
+      - "kubeadm=1.23.6"
+      - "kubectl=1.23.6"
+    update-cache: true
+    state: present
+
+- name: hold kubelet package
+  ansible.builtin.dpkg_selections:
+    name: kubelet
+    selection: hold
+
+- name: hold kubeadm package
+  ansible.builtin.dpkg_selections:
+    name: kubeadm
+    selection: hold
+
+- name: hold kubectl package
+  ansible.builtin.dpkg_selections:
+    name: kubectl
+    selection: hold

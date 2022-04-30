@@ -1,6 +1,6 @@
 ---
-- name: packages
+- name: update packages
   ansible.builtin.import_tasks: packages.yml
 
-- name: ssh
+- name: configure ssh
   ansible.builtin.import_tasks: ssh.yml

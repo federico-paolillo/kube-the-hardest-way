@@ -1,0 +1,3 @@
+---
+- name: install kubetools
+  include_tasks: install.yml

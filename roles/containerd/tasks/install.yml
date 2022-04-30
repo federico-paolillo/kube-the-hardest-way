@@ -12,7 +12,7 @@
 - name: download docker repo key
   ansible.builtin.get_url:
     url: "https://download.docker.com/linux/ubuntu/gpg"
-    dest: /tmp/docker-pgp-key
+    dest: /tmp/docker-gpg-key
     owner: root
     group: root
     mode: u=r,g=r,o=r
@@ -20,7 +20,7 @@
 - name: add docker repo key
   ansible.builtin.command:
     cmd: >
-      gpg --dearmor --output /usr/share/keyrings/docker-archive-keyring.gpg /tmp/docker-pgp-key
+      gpg --dearmor --output /usr/share/keyrings/docker-archive-keyring.gpg /tmp/docker-gpg-key
     creates: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: add docker apt repo
@@ -31,8 +31,13 @@
     group: root
     mode: u=rw,g=r,o=r
 
-- name: install containerd
+- name: install containerd from apt
   ansible.builtin.apt:
     name: "containerd.io=1.5.11-1"
     update-cache: true
     state: present
+
+- name: hold containerd package
+  ansible.builtin.dpkg_selections:
+    name: containerd.io
+    selection: hold
