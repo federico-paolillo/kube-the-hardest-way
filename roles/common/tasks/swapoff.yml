@@ -1,0 +1,18 @@
+---
+- name: turn off swapp
+  ansible.builtin.command:
+    cmd: >
+      swapoff --all
+  changed_when: true
+
+- name: update fstab
+  ansible.builtin.replace:
+    path: /etc/fstab
+    # I flat out stole the regexp
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+
+- name: reboot
+  ansible.builtin.reboot:
+    connect_timeout: 120
+    reboot_timeout: 120

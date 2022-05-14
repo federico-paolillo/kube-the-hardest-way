@@ -4,3 +4,6 @@
 
 - name: configure ssh
   ansible.builtin.import_tasks: ssh.yml
+
+- name: disable swap
+  ansible.builtin.import_tasks: swapoff.yml
