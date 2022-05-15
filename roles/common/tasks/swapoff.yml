@@ -1,5 +1,5 @@
 ---
-- name: turn off swapp
+- name: turn off swap
   ansible.builtin.command:
     cmd: >
       swapoff --all

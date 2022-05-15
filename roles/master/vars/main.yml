@@ -1,0 +1,6 @@
+---
+control_plane_endpoint: my-cluster.federico-paolillo.xyz
+cluster_name: my-cluster
+pod_subnet: 192.168.0.0/17
+service_subnet: 192.168.128.0/17
+service_node_port_range: 63000-65535

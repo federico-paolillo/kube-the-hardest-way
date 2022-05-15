@@ -1,0 +1,3 @@
+---
+- name: add kubeadm init configuration
+  include_tasks: config.yml

@@ -4,3 +4,7 @@
     - common
     - containerd
     - kubetools
+
+- hosts: masters
+  roles:
+    - master

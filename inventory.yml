@@ -1,7 +1,7 @@
 ---
 all:
   children:
-    workers:
+    masters:
       hosts:
         192.168.178.40:
   vars:
